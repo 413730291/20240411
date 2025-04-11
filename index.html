@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sketch</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script src="libraries/p5.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
+
+    <style>
+      /* 選單樣式 */
+      .menu {
+        position: fixed;
+        top: -100px; /* 初始隱藏在上方 */
+        right: 10px;
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 10px;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 3; /* 選單在最上層 */
+        transition: top 0.5s ease; /* 平滑滑動效果 */
+      }
+
+      .menu.visible {
+        top: 10px; /* 滑動到可見位置 */
+      }
+
+      .menu li {
+        margin: 0 10px;
+        position: relative;
+      }
+
+      .menu a {
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+        font-family: Arial, sans-serif;
+      }
+
+      .menu a:hover {
+        color: #007BFF; /* 滑鼠懸停時的顏色 */
+      }
+
+      /* 子選單樣式 */
+      .submenu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: #fff;
+        list-style: none;
+        padding: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .menu li:hover .submenu {
+        display: block;
+      }
+
+      .submenu li {
+        margin: 5px 0;
+      }
+
+      .submenu a {
+        font-size: 18px; /* 調整文字大小 */
+        color: #333;
+      }
+
+      .submenu a:hover {
+        color: #007BFF;
+      }
+
+      /* iframe 樣式 */
+      iframe {
+        width: 100%;
+        height: 80vh;
+        border: none;
+        margin-top: 80px; /* 增加與選單的距離 */
+        z-index: 2; /* iframe 在第二層 */
+        position: relative;
+        display: none; /* 預設隱藏 */
+      }
+
+      /* 畫布樣式 */
+      canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1; /* 畫布在最底層 */
+      }
+    </style>
+  </head>
+
+  <body>
+    <ul class="menu" id="menu">
+      <li><a href="#" onclick="hideIframe()">首頁</a></li>
+      <li><a href="#about">自我介紹</a></li>
+      <li>
+        <a href="#portfolio">作品集</a>
+        <ul class="submenu">
+          <li><a href="#" onclick="loadIframe('https://hackmd.io/@chi10199/HkRcik_ike')">第一周</a></li>
+          <li><a href="#" onclick="loadIframe('https://hackmd.io/@chi10199/SJD4wW-21g')">第二周</a></li>
+          <li><a href="#" onclick="loadIframe('https://413730291.github.io/20250328/')">第三周</a></li>
+          <li><a href="#" onclick="loadIframe('https://example.com/fourth-week')">第四周</a></li>
+        </ul>
+      </li>
+      <li><a href="#quiz">測驗卷</a></li>
+      <li><a href="#tutorial">教學影片</a></li>
+    </ul>
+
+    <!-- iframe 用於嵌入網頁 -->
+    <iframe id="contentFrame" src=""></iframe>
+
+    <!-- sketch.js 畫布 -->
+    <script src="sketch.js"></script>
+
+    <script>
+      // 動態加載 iframe 的內容
+      function loadIframe(url) {
+        const iframe = document.getElementById('contentFrame');
+        iframe.src = url; // 設置 iframe 的 src
+        iframe.style.display = 'block'; // 顯示 iframe
+      }
+
+      // 隱藏 iframe
+      function hideIframe() {
+        const iframe = document.getElementById('contentFrame');
+        iframe.src = ''; // 清空 iframe 的 src
+        iframe.style.display = 'none'; // 隱藏 iframe
+      }
+
+      // 顯示選單
+      let menuVisible = false;
+      document.addEventListener('mousemove', () => {
+        if (!menuVisible) {
+          const menu = document.getElementById('menu');
+          menu.classList.add('visible'); // 添加 visible 類，讓選單滑下來
+          menuVisible = true;
+        }
+      });
+    </script>
+  </body>
+</html>
